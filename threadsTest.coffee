@@ -2,7 +2,7 @@ Thread = require './threads'
 
 # In both examples, the numbers should be logged in ascending order.
 
-t = new Thread
+t = new Thread 'test1'
 t.run [
   ->
     console.log 1
@@ -27,7 +27,7 @@ t.run [
 
 console.log '----------'
 
-t = new Thread
+t = new Thread 'test2'
 t.run [
   ->
     console.log 1
@@ -40,3 +40,11 @@ t.run [
         t.continue()
     ]
 ]
+try
+  # Shouldn't be able to continue already terminated thread.
+  t.continue()
+catch e
+  console.log e
+
+console.log '----------'
+
