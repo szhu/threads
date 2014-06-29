@@ -44,22 +44,22 @@ class Thread
     else  throw new Error "Internal error: Can't remove thread from unfinished list. Have thread.running or Thread.current been manually modified?"
 
   # Adds functions to be run when current functions are done.
-  queue: (functions) =>
+  queue: (functions) ->
     functions = [functions]  unless functions instanceof Array
     @functions.push functions...
 
   # In most cases, @continue is done right after @queue.
-  queueAndContinue: (functions) =>
+  queueAndContinue: (functions) ->
     @queue functions
     @continue()
 
   # Adds functions to be run next.
-  stack: (functions) =>
+  stack: (functions) ->
     functions = [functions]  unless functions instanceof Array
     @functions.splice @i, 0, functions...
 
   # In most cases, @continue is done right after @stack.
-  stackAndContinue: (functions) =>
+  stackAndContinue: (functions) ->
     @stack functions
     @continue()
 
