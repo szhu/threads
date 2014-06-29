@@ -23,6 +23,7 @@ class Thread
     functions = [functions]  unless functions instanceof Array
     @functions.push functions...
 
+  # In most cases, @continue is done right after @queue.
   queueAndContinue: (functions) ->
     @queue functions
     @continue()
@@ -33,6 +34,7 @@ class Thread
     @functions.splice @i, 0, functions...
     @continue()
 
+  # In most cases, @continue is done right after @stack.
   stackAndContinue: (functions) ->
     @stack functions
     @continue()
