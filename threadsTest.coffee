@@ -25,7 +25,9 @@ t.run [
       t.continue()
 ]
 
+
 console.log '----------'
+
 
 t = new Thread 'test2'
 t.run [
@@ -46,5 +48,34 @@ try
 catch e
   console.log e
 
+
 console.log '----------'
+
+
+t = new Thread 'thread-that-forgot-to-finish'
+t.run ->
+
+# Hm, did we forget to finish executing any threads?
+console.log "#{Thread.current.length} threads haven't finished!"
+
+
+console.log '----------'
+
+fetchSomeDataWithCallback = (who, callback) ->
+  if who == 'you'  then callback 'pretty cool'
+  else  callback 'not as cool'
+
+t = new Thread 'features-demo'
+t.run [
+  ->
+    setTimeout ->
+      t.vars.who = 'you'
+      t.continue()
+    , 500
+  ->
+    fetchSomeDataWithCallback(t.vars.who, t.continue)
+  (returnedData) ->
+    console.log "results of computation: #{t.vars.who}: #{returnedData}"
+    t.continue()
+]
 

@@ -9,7 +9,7 @@ class Thread
   # Begins execution of a series of functions
   run: (@functions, @errorFunction) =>
     @functions = [@functions]  unless @functions instanceof Array
-    throw new Error "Cannot run empty thread"  if @functions[0] is undefined
+    throw new Error "Cannot run empty thread."  if @functions[0] is undefined
     @i = 0
     @_unfinish()
     @continue()
@@ -21,8 +21,8 @@ class Thread
 
   # Terminates execution and calls the error function.
   error: (args...) =>
-    console.warn "Error function doesn't exist for thread"
-    @errorFunction args...
+    if @errorFunction  then @errorFunction args...
+    else console.warn "Error function doesn't exist for thread."
     @_finish()
 
   # Terminates execution without doing anything else.
@@ -41,7 +41,7 @@ class Thread
     @running = false
     current = @.constructor.current
     if (t = current.indexOf @) > -1  then current[t..t] = []
-    else  throw new Error "Internal error: Can't remove from unfinished list. Have thread.running or Thread.current been manually modified?"
+    else  throw new Error "Internal error: Can't remove thread from unfinished list. Have thread.running or Thread.current been manually modified?"
 
   # Adds functions to be run when current functions are done.
   queue: (functions) =>
